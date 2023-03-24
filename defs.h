@@ -203,14 +203,14 @@ struct procInfo;
 int             proc_ps(int count, struct procInfo* procInfoArray);
 
 /// @brief 
-/// @param fd 
+/// @param fp 
 /// @return
-void            file_lock(int fd);
+void            file_lock(struct file* fp);
 
 /// @brief 
-/// @param fd 
+/// @param fp 
 /// @return
-void            file_unlock(int fd);
+void            file_unlock(struct file* fp);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

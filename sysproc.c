@@ -126,25 +126,3 @@ int sys_ps(void)
   }
   return proc_ps(numberOfProcs, procInfoArray);
 }
-
-int sys_flock(void) {
-  int fd = -1;
-   if(argint(0, &fd) < 0)
-  {
-    return -1;
-  }
-  file_lock(fd);
-
-   return 0;
-}
-
-int sys_funlock(void) {
-  int fd = -1;
-   if(argint(0, &fd) < 0)
-  {
-    return -1;
-  }
-  file_unlock(fd);
-  
-   return 0;
-}

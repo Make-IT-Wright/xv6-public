@@ -445,12 +445,34 @@ sys_pipe(void)
 
 /// @brief 
 /// @param fp 
-void file_lock(int fd) {
+void file_lock(struct file* fp) {
 
 }
 
 /// @brief 
 /// @param fp 
-void file_unlock(int fd) {
+void file_unlock(struct file* fp) {
 
+}
+
+int sys_flock(void) {
+  struct file* fp;
+  if(argfd(0, 0, &fp) < 0)
+  {
+    return -1;
+  }
+  file_lock(fp);
+
+   return 0;
+}
+
+int sys_funlock(void) {
+  struct file* fp;
+  if(argfd(0, 0, &fp) < 0)
+  {
+    return -1;
+  }
+  file_unlock(fp);
+  
+   return 0;
 }
