@@ -202,15 +202,16 @@ struct procInfo;
 /// at indexes >= count may contain uninitialized memory.
 int             proc_ps(int count, struct procInfo* procInfoArray);
 
-/// @brief 
-/// @param fp 
-/// @return
+/// @brief Attempt to acquire a sleeplock associated with fp. The calling process blocks
+/// a.k.a. sleeps until the lock is obtained.
+/// @param fp pointer to the a file structure for an open file
 void            file_lock(struct file* fp);
 
-/// @brief 
-/// @param fp 
-/// @return
-void            file_unlock(struct file* fp);
+/// @brief Release a sleeplock associated with fp.
+/// @param fp pointer to the a file structure for an open file that is "locked" via 
+/// a previous call to file_lock()
+/// @return zero if there is no error and -1 otherwise
+int            file_unlock(struct file* fp);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

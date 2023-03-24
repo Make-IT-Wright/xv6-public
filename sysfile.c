@@ -443,18 +443,20 @@ sys_pipe(void)
   return 0;
 }
 
-/// @brief 
-/// @param fp 
+// See documentation in defs.h
 void file_lock(struct file* fp) {
 
 }
 
-/// @brief 
-/// @param fp 
-void file_unlock(struct file* fp) {
-
+// See documentation in defs.h
+int file_unlock(struct file* fp) {
+  return 0;
 }
 
+/// @brief Attempt to acquire a sleeplock associated with an open file descriptor passed
+/// as the first argument to the system call. The calling process is blocked a.k.a.
+/// sleeps until the lock is obtained
+/// @return zero if there is no error and -1 otherwise.
 int sys_flock(void) {
   struct file* fp;
   if(argfd(0, 0, &fp) < 0)
@@ -466,13 +468,15 @@ int sys_flock(void) {
    return 0;
 }
 
+/// @brief Release a sleeplock associated with an open file descriptor passed
+/// as the first argument to the system call. The file descriptor must be for an
+/// open file that is locked by a previous call to sys_flock()
+/// @return zero if there is no error and -1 otherwise.
 int sys_funlock(void) {
   struct file* fp;
   if(argfd(0, 0, &fp) < 0)
   {
     return -1;
   }
-  file_unlock(fp);
-  
-   return 0;
+  return file_unlock(fp);
 }
