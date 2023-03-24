@@ -37,6 +37,16 @@ int shutdown(void);
 /// at indexes >= count may contain uninitialized memory.
 int ps(int count, struct procInfo* procInfoArray);
 
+/// @brief 
+/// @param fd 
+/// @return
+int flock(int fd);
+
+/// @brief 
+/// @param fd 
+/// @return
+int funlock(int fd);
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);

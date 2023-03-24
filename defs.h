@@ -202,5 +202,15 @@ struct procInfo;
 /// at indexes >= count may contain uninitialized memory.
 int             proc_ps(int count, struct procInfo* procInfoArray);
 
+/// @brief 
+/// @param fd 
+/// @return
+void            file_lock(int fd);
+
+/// @brief 
+/// @param fd 
+/// @return
+void            file_unlock(int fd);
+
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

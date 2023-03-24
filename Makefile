@@ -194,6 +194,7 @@ UPROGS=\
 	_snprintftest\
 	_ps\
 	_longRunner\
+	_testlocks\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

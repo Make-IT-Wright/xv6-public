@@ -442,3 +442,15 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+/// @brief 
+/// @param fp 
+void file_lock(int fd) {
+
+}
+
+/// @brief 
+/// @param fp 
+void file_unlock(int fd) {
+
+}
