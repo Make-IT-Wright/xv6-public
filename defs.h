@@ -204,7 +204,6 @@ struct procInfo;
 /// by the kernel. This number may be less than count, and if it is, elements
 /// at indexes >= count may contain uninitialized memory.
 int             proc_ps(int count, struct procInfo* procInfoArray);
-int proc_nice(int pid, int desiredPriority);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
