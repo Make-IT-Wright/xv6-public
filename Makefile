@@ -192,6 +192,9 @@ UPROGS=\
 	_zombie\
     _shutdown\
 	_mycat2\
+	_snprintftest\
+	_ps\
+	_longRunner\
 	_testdevhello\
 
 fs.img: mkfs README $(UPROGS)
