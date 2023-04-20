@@ -23,6 +23,9 @@ void            cprintf(char*, ...);
 void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
 
+// dhello.c
+void helloinit(void);
+
 // exec.c
 int             exec(char*, char**);
 
@@ -34,6 +37,8 @@ void            fileinit(void);
 int             fileread(struct file*, char*, int n);
 int             filestat(struct file*, struct stat*);
 int             filewrite(struct file*, char*, int n);
+int             filelock(struct file*);
+int             fileunlock(struct file*);
 
 // fs.c
 void            readsb(int dev, struct superblock *sb);
@@ -42,6 +47,8 @@ struct inode*   dirlookup(struct inode*, char*, uint*);
 struct inode*   ialloc(uint, short);
 struct inode*   idup(struct inode*);
 void            iinit(int dev);
+void            fsemaphore_lock(struct inode*);
+void            fsemaphore_unlock(struct inode*);
 void            ilock(struct inode*);
 void            iput(struct inode*);
 void            iunlock(struct inode*);
@@ -201,6 +208,7 @@ struct procInfo;
 /// by the kernel. This number may be less than count, and if it is, elements
 /// at indexes >= count may contain uninitialized memory.
 int             proc_ps(int count, struct procInfo* procInfoArray);
+int proc_nice(int pid, int desiredPriority);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))

@@ -19,6 +19,12 @@ main(void)
   dup(0);  // stdout
   dup(0);  // stderr
 
+  // Only 10 device major numbers are allowed by param.h
+  if(open("hello", O_RDWR) < 0){
+    mknod("hello", 7, 1); // 7 is major number, 1 is minor number 
+    open("hello", O_RDWR);
+  }
+
   for(;;){
     printf(1, "init: starting sh\n");
     pid = fork();
