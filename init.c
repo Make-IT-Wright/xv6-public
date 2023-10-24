@@ -20,10 +20,13 @@ main(void)
   dup(0);  // stderr
 
   // Only 10 device major numbers are allowed by param.h
-  if(open("hello", O_RDWR) < 0){
-    mknod("hello", 7, 1); // 7 is major number, 1 is minor number 
-    open("hello", O_RDWR);
+  mkdir("dev");
+  int hellofd = open("dev/hello", O_RDWR);
+  if(hellofd < 0){
+    mknod("dev/hello", 7, 1); // 7 is major number, 1 is minor number 
+    hellofd = open("dev/hello", O_RDWR);
   }
+  close(hellofd);
 
   for(;;){
     printf(1, "init: starting sh\n");
