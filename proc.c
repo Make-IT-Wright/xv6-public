@@ -405,6 +405,8 @@ scheduler(void)
     sti();
 
     // Loop over process table looking for process to run.
+    // Select the highest priority RUNNABLE. Use round-robin
+    // for all RUNNABLEs at the same highest priority
     acquire(&ptable.lock);
     int indexInProcs = indexOfHighestPriority;
     int count = 0;

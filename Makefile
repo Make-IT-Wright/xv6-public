@@ -197,6 +197,7 @@ UPROGS=\
 	_testshm\
 	_nice\
 	_testsched\
+	_testround\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

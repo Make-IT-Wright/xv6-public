@@ -197,9 +197,26 @@ void            clearpteu(pde_t *pgdir, char *uva);
 
 struct procInfo;
 
-int             filelock(struct file*);
-int             fileunlock(struct file*);
-void            fsemaphore_lock(struct inode*);
+/// @brief This fuction acquires a sleep lock for the given file.
+/// This function calls fsemaphore_lock()
+/// @param fp a valid file pointer
+/// @return 0 upon success and -1 upon error
+int             filelock(struct file* fp);
+
+/// @brief This fuction releases a sleep lock for the given file.
+/// This function calls fsemaphore_unlock()
+/// @param fp a valid file pointer
+/// @return 0 upon success and -1 upon error
+int             fileunlock(struct file* fp);
+
+/// @brief This fuction acquires a sleep lock for the given inode 
+/// (treat flock in inode as a semphore).
+/// @param ip a valid inode pointer
+void            fsemaphore_lock(struct inode* ip);
+
+/// @brief This fuction releases a sleep lock for the given inode 
+/// (treat flock in inode as a semphore).
+/// @param ip a valid inode pointer
 void            fsemaphore_unlock(struct inode*);
 
 /// @brief This fuction changes the priority of the procee with 
@@ -217,7 +234,7 @@ int proc_nice(int targetPID, int targetPriority) ;
 /// @return The number of struct procInfo structures stored in procInfoArray
 /// by the kernel. This number may be less than count, and if it is, elements
 /// at indexes >= count may contain uninitialized memory.
-int             proc_ps(int count, struct procInfo* procInfoArray);
+int proc_ps(int count, struct procInfo* procInfoArray);
 
 /// @brief Call this function to obtain a pointer to shared memory.
 /// @param storeBuffer_p Addess of memory where a pointer to the shared memory 
