@@ -1,3 +1,5 @@
+#ifndef defs_H
+#define defs_H
 #include "param.h"
 struct buf;
 struct context;
@@ -22,6 +24,9 @@ void            consoleinit(void);
 void            cprintf(char*, ...);
 void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
+
+// dhello.c
+void helloinit(void);
 
 // exec.c
 int             exec(char*, char**);
@@ -192,6 +197,35 @@ void            clearpteu(pde_t *pgdir, char *uva);
 
 struct procInfo;
 
+/// @brief This fuction acquires a sleep lock for the given file.
+/// This function calls fsemaphore_lock()
+/// @param fp a valid file pointer
+/// @return 0 upon success and -1 upon error
+int             filelock(struct file* fp);
+
+/// @brief This fuction releases a sleep lock for the given file.
+/// This function calls fsemaphore_unlock()
+/// @param fp a valid file pointer
+/// @return 0 upon success and -1 upon error
+int             fileunlock(struct file* fp);
+
+/// @brief This fuction acquires a sleep lock for the given inode 
+/// (treat flock in inode as a semphore).
+/// @param ip a valid inode pointer
+void            fsemaphore_lock(struct inode* ip);
+
+/// @brief This fuction releases a sleep lock for the given inode 
+/// (treat flock in inode as a semphore).
+/// @param ip a valid inode pointer
+void            fsemaphore_unlock(struct inode*);
+
+/// @brief This fuction changes the priority of the procee with 
+/// targetPID to targetPriority.
+/// @param targetPID The index of the process data structure to change
+/// @param targetPriority the new priority
+/// @return the priority of chnage dprocess before the change
+int proc_nice(int targetPID, int targetPriority) ;
+
 /// @brief Call this function to obtain information about existing 
 /// processes.
 /// @param count : the maximum number of elements storable in procInfoArray
@@ -200,7 +234,16 @@ struct procInfo;
 /// @return The number of struct procInfo structures stored in procInfoArray
 /// by the kernel. This number may be less than count, and if it is, elements
 /// at indexes >= count may contain uninitialized memory.
-int             proc_ps(int count, struct procInfo* procInfoArray);
+int proc_ps(int count, struct procInfo* procInfoArray);
+
+/// @brief Call this function to obtain a pointer to shared memory.
+/// @param storeBuffer_p Addess of memory where a pointer to the shared memory 
+/// should be stored. FYI, pass by reference and pass by pointer are the same
+/// thing.
+/// @return zero upon success and -1 otherwise
+int proc_attachSharedMemory(char **storeBuffer_p);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
+
+#endif // defs_H
