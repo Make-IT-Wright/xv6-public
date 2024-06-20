@@ -103,6 +103,23 @@ int sys_shutdown(void)
   return 0;
 }
 
+/// @brief This is the kernel side of the nice system call. 
+/// arg0 is a valid pid, arg1 is an integer priority.
+/// @param  
+/// @return 
+int sys_nice(void)
+{
+  int targetPID = -1;
+  int targetPriority = 0;
+
+  if(argint(0, &targetPID) < 0)
+    return -1;
+  if(argint(1, &targetPriority) < 0)
+    return -1;
+
+  return proc_nice(targetPID, targetPriority);
+}
+
 /// @brief This is the kernel side of a system call to obtain information 
 /// about existing processes in the kernel
 /// arg0 is the maximum number of elements storable in procInfoArray
@@ -121,4 +138,17 @@ int sys_ps(void)
   if(argptr(1, (char **)&procInfoArray,  sizeof(struct procInfo *)) < 0)
     return -1;
   return proc_ps(numberOfProcs, procInfoArray);
+}
+
+/// @brief This function executes as result of system call
+/// @return zero upon success and -1 otherwise
+int sys_attachSharedMemory(void) 
+{
+  char **sharedUVM;
+  if(argptr(0, (char **)&sharedUVM,  sizeof(char *)) < 0)
+  {
+    return -1;
+  }
+
+  return proc_attachSharedMemory(sharedUVM);
 }

@@ -1,3 +1,5 @@
+#ifndef defs_H
+#define defs_H
 #include "param.h"
 struct buf;
 struct context;
@@ -22,6 +24,9 @@ void            consoleinit(void);
 void            cprintf(char*, ...);
 void            consoleintr(int(*)(void));
 void            panic(char*) __attribute__((noreturn));
+
+// dhello.c
+void helloinit(void);
 
 // exec.c
 int             exec(char*, char**);
@@ -192,6 +197,18 @@ void            clearpteu(pde_t *pgdir, char *uva);
 
 struct procInfo;
 
+int             filelock(struct file*);
+int             fileunlock(struct file*);
+void            fsemaphore_lock(struct inode*);
+void            fsemaphore_unlock(struct inode*);
+
+/// @brief This fuction changes the priority of the procee with 
+/// targetPID to targetPriority.
+/// @param targetPID The index of the process data structure to change
+/// @param targetPriority the new priority
+/// @return the priority of chnage dprocess before the change
+int proc_nice(int targetPID, int targetPriority) ;
+
 /// @brief Call this function to obtain information about existing 
 /// processes.
 /// @param count : the maximum number of elements storable in procInfoArray
@@ -202,5 +219,14 @@ struct procInfo;
 /// at indexes >= count may contain uninitialized memory.
 int             proc_ps(int count, struct procInfo* procInfoArray);
 
+/// @brief Call this function to obtain a pointer to shared memory.
+/// @param storeBuffer_p Addess of memory where a pointer to the shared memory 
+/// should be stored. FYI, pass by reference and pass by pointer are the same
+/// thing.
+/// @return zero upon success and -1 otherwise
+int proc_attachSharedMemory(char **storeBuffer_p);
+
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
+
+#endif // defs_H
